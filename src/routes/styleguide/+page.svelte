@@ -359,24 +359,36 @@
     <h2 class="text-heading-2">
       <a class="link" href="#pickers">#</a> Pickers
     </h2>
-    <div class="form-grid">
-      <div>
-        <label for="sg-combobox" class="form-label">Combobox</label>
-        <Combobox
-          id="sg-combobox"
-          value={comboboxValue}
-          options={comboboxOptions}
-          placeholder="Search frameworks..."
-          oninput={() => {}}
-          onfocus={() => {}}
-          onblur={() => {}}
-          onselect={(option) => (comboboxValue = option.value)}
-        >
-          {#snippet optionSnippet(option)}
-            <span>{option.label}</span>
-          {/snippet}
-        </Combobox>
-        <p class="subtle">Selected: {comboboxValue || "none"}</p>
+    <div class="form-stack">
+      <div class="form-grid">
+        <div>
+          <label for="sg-combobox" class="form-label">Combobox</label>
+          <Combobox
+            id="sg-combobox"
+            value={comboboxValue}
+            options={comboboxOptions}
+            placeholder="Search frameworks..."
+            oninput={() => {}}
+            onfocus={() => {}}
+            onblur={() => {}}
+            onselect={(option) => (comboboxValue = option.value)}
+          >
+            {#snippet optionSnippet(option)}
+              <span>{option.label}</span>
+            {/snippet}
+          </Combobox>
+          <p class="subtle">Selected: {comboboxValue || "none"}</p>
+        </div>
+
+        <div>
+          <label for="sg-date" class="form-label">Date Picker</label>
+          <DatePicker
+            id="sg-date"
+            bind:value={dateValue}
+            placeholder="Pick a date..."
+          />
+          <p class="subtle">Selected: {dateValue || "none"}</p>
+        </div>
       </div>
 
       <div>
@@ -388,16 +400,6 @@
           placeholder="Select skills..."
           allowCustom
         />
-      </div>
-
-      <div>
-        <label for="sg-date" class="form-label">Date Picker</label>
-        <DatePicker
-          id="sg-date"
-          bind:value={dateValue}
-          placeholder="Pick a date..."
-        />
-        <p class="subtle">Selected: {dateValue || "none"}</p>
       </div>
     </div>
   </section>
