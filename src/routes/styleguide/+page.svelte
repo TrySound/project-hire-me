@@ -4,6 +4,7 @@
   import MultiSelectCombobox from "$lib/multi-select-combobox.svelte";
   import DatePicker from "$lib/date-picker.svelte";
   import ContactCards from "$lib/contact-cards.svelte";
+  import { page } from "$app/state";
 
   // Icons list from app.html SVG sprite
   const icons = [
@@ -85,6 +86,12 @@
 <svelte:head>
   <title>Styleguide | weareonhire!</title>
   <meta name="robots" content="noindex" />
+
+  <meta property="og:url" content={page.url.toString()} />
+  <meta property="og:image" content="{page.url.origin}/og-image.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="{page.url.origin}/og-image.png" />
 </svelte:head>
 
 <div class="container">
