@@ -65,7 +65,7 @@ html[data-theme="dark"] {
   --z-dialog: 200;
 
   /* Colors using light-dark() */
-  --color-accent: oklch(0.69 0.26 26.96);
+  --color-accent: light-dark(oklch(0.5 0.4 28), oklch(0.69 0.26 26.96));
   --color-text: light-dark(#1a1a1a, #f0f0f0);
   --color-text-secondary: light-dark(#444444, #d0d0d0);
   --color-text-tertiary: light-dark(#666666, #888888);
