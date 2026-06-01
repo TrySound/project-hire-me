@@ -198,10 +198,10 @@
       Write a recommendation for {data.inviter?.name || data.inviter?.handle}
     </p>
     <form
-      {...createRecommendation.enhance(async ({ form, submit }) => {
-        await submit();
+      {...createRecommendation.enhance(async (form) => {
+        await form.submit();
         await checks.refresh();
-        form.reset();
+        form.element.reset();
         // remote functions do not support method=dialog
         // so use enhanced form to close it manually after submission
         recommendationDialog?.close();
@@ -209,9 +209,9 @@
       class="form-stack"
     >
       <input
-        {...createRecommendation.fields.handle.as(
+        {...createRecommendation.fields.did.as(
           "hidden",
-          data.inviter?.handle ?? "",
+          data.inviter?.did ?? "",
         )}
       />
       <div class="form-group">

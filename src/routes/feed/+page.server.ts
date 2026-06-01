@@ -1,4 +1,3 @@
-import { sql } from "kysely";
 import { formatDate } from "$lib/date";
 import { getDB } from "$lib/dbkit";
 
@@ -106,11 +105,7 @@ export const load = async ({ locals }) => {
     .leftJoin("identities as author_id", "author_id.did", "doc.did")
     .leftJoin("records_profile as author", "author.did", "doc.did")
     .innerJoin("records_publication as pub", (join) =>
-      join.onRef(
-        sql`concat('at://', pub.did, '/site.standard.publication/', pub.rkey)`,
-        "=",
-        (q) => q.ref("doc.record", "->>").key("site"),
-      ),
+      join.onRef("pub.uri", "=", (q) => q.ref("doc.record", "->>").key("site")),
     )
     .where(
       (q) =>
@@ -187,7 +182,6 @@ export const load = async ({ locals }) => {
 
   return {
     handle: locals.handle,
-    role: locals.role,
     feed,
   };
 };

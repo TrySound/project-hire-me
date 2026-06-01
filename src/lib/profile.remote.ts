@@ -19,7 +19,6 @@ import {
   updateProfileContacts,
   updateProfileData,
 } from "./profile.server";
-import { resolveIdentifier } from "./atproto";
 import { loadLegacyResume } from "./legacy-resume.server";
 
 const ContactOperationSchema = v.variant("op", [
@@ -30,41 +29,29 @@ const ContactOperationSchema = v.variant("op", [
 ]);
 
 export const getProfile = query(
-  v.object({ handle: v.string() }),
-  async ({ handle }) => {
+  v.object({ did: v.string() }),
+  async ({ did }) => {
     const event = getRequestEvent();
-    const resolved = await resolveIdentifier(handle);
-    if (!resolved) {
-      error(404, `Cannot resolve ${handle}`);
-    }
-    const isOwnProfile = event.locals.did === resolved.did;
-    const profile = await loadProfile(resolved.did, isOwnProfile);
+    const isProfileOwner = event.locals.did === did;
+    const profile = await loadProfile(did as DidString, isProfileOwner);
     return profile;
   },
 );
 
 export const getResumeBasics = query(
-  v.object({ handle: v.string() }),
-  async ({ handle }) => {
+  v.object({ did: v.string() }),
+  async ({ did }) => {
     const event = getRequestEvent();
-    const resolved = await resolveIdentifier(handle);
-    if (!resolved) {
-      error(404, `Cannot resolve ${handle}`);
-    }
-    const isOwnProfile = event.locals.did === resolved.did;
-    const basics = await loadResumeBasicsData(resolved.did, isOwnProfile);
+    const isProfileOwner = event.locals.did === did;
+    const basics = await loadResumeBasicsData(did as DidString, isProfileOwner);
     return basics;
   },
 );
 
 export const getProfileContacts = query(
-  v.object({ handle: v.string() }),
-  async ({ handle }) => {
-    const resolved = await resolveIdentifier(handle);
-    if (!resolved) {
-      error(404, `Cannot resolve ${handle}`);
-    }
-    const contacts = await loadProfileContacts(resolved.did);
+  v.object({ did: v.string() }),
+  async ({ did }) => {
+    const contacts = await loadProfileContacts(did as DidString);
     return {
       contacts,
     };
@@ -72,13 +59,9 @@ export const getProfileContacts = query(
 );
 
 export const getResumeSkills = query(
-  v.object({ handle: v.string() }),
-  async ({ handle }) => {
-    const resolved = await resolveIdentifier(handle);
-    if (!resolved) {
-      error(404, `Cannot resolve ${handle}`);
-    }
-    const skills = await loadResumeSkillsData(resolved.did);
+  v.object({ did: v.string() }),
+  async ({ did }) => {
+    const skills = await loadResumeSkillsData(did as DidString);
     return {
       skills,
     };
@@ -133,7 +116,7 @@ export const updateProfile = form(
     // Update contacts in SIFA external accounts using atomic operations
     await updateProfileContacts(did, contactOperations ?? []);
 
-    getProfile({ handle }).set({
+    getProfile({ did }).set({
       name,
       title,
       introduction,
@@ -141,7 +124,7 @@ export const updateProfile = form(
       email,
       status,
     });
-    getProfileContacts({ handle }).refresh();
+    getProfileContacts({ did }).refresh();
   },
 );
 
@@ -191,8 +174,8 @@ export const updateResumeBasics = form(
     await updateResumeLanguagesData(did, languageOperations ?? []);
 
     // cannot use set because languages should be refreshed
-    getResumeBasics({ handle }).refresh();
-    getProfileContacts({ handle }).refresh();
+    getResumeBasics({ did }).refresh();
+    getProfileContacts({ did }).refresh();
   },
 );
 
@@ -205,31 +188,26 @@ export const updateResumeSkills = form(
   async ({ skillOperations }) => {
     const event = getRequestEvent();
     const did = event.locals.did as DidString;
-    const handle = event.locals.handle;
-    if (!did || !handle) {
+    if (!did ) {
       error(401, "Unauthorized");
     }
 
     await updateResumeSkillsData(did, skillOperations);
 
-    getResumeSkills({ handle }).refresh();
+    getResumeSkills({ did }).refresh();
   },
 );
 
 // Legacy functions for resume page
 export const getMemberProfile = query(
-  v.object({ handle: v.string() }),
-  async ({ handle }) => {
-    const { locals } = getRequestEvent();
-    const resolved = await resolveIdentifier(handle);
-    if (!resolved) {
-      error(404, `Cannot resolve ${handle}`);
-    }
+  v.object({ did: v.string() }),
+  async ({ did }) => {
+    const event = getRequestEvent();
     // show local resume and fallback to sifa resume
-    const isOwnProfile = resolved.did === locals.did;
+    const isProfileOwner = event.locals.did === did;
     return (
-      (await loadLegacyResume(resolved.did)) ??
-      (await loadSifaResume(resolved.did, isOwnProfile))
+      (await loadLegacyResume(did as DidString)) ??
+      (await loadSifaResume(did as DidString, isProfileOwner))
     );
   },
 );
@@ -237,8 +215,7 @@ export const getMemberProfile = query(
 export const updateMemberProfile = command(ResumeSchema, async (resume) => {
   const { locals } = getRequestEvent();
   const did = locals.did;
-  const handle = locals.handle;
-  if (!did || !handle) {
+  if (!did) {
     error(401, "Unauthorized");
   }
 
@@ -246,5 +223,5 @@ export const updateMemberProfile = command(ResumeSchema, async (resume) => {
   await updateSifaResume(did, resume);
 
   // Refresh the profile query to reflect changes
-  getMemberProfile({ handle }).refresh();
+  getMemberProfile({ did }).refresh();
 });

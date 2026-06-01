@@ -197,7 +197,7 @@ function createDB() {
     dialect: new PostgresDialect({
       pool: new Pool({
         connectionString,
-      }),
+      }) as never,
     }),
   });
 }

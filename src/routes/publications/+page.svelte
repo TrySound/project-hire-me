@@ -7,17 +7,17 @@
 
   let { data } = $props();
 
-  const author = $derived(page.url.searchParams.get("author") ?? "");
-
   const profile = $derived(
-    author ? await getProfile({ handle: author }) : null,
+    data.author ? await getProfile({ did: data.author.did }) : null,
   );
 
   const publications = $derived(
-    author ? await getPublications({ author }) : { publications: [] },
+    data.author
+      ? await getPublications({ authorDid: data.author.did })
+      : { publications: [] },
   );
 
-  const authorName = $derived(profile?.name ?? author);
+  const authorName = $derived(profile?.name ?? data.author?.handle);
 
   const title = $derived(`Publications by ${authorName} | weareonhire!`);
   const description = $derived(

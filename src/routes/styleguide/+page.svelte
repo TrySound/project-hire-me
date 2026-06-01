@@ -63,6 +63,8 @@
   // Shadow tokens
   const shadowTokens = ["--shadow-md", "--shadow-xl"];
 
+  let { data } = $props();
+
   // Interactive demo state
   let comboboxValue = $state("");
   let comboboxOptions = $state([
@@ -86,7 +88,7 @@
 </svelte:head>
 
 <div class="container">
-  <Topbar handle={undefined} />
+  <Topbar handle={data.handle} />
 
   <section>
     <h1 class="text-heading-1">Styleguide</h1>
@@ -356,7 +358,7 @@
     </h2>
     <div class="form-stack">
       <div class="form-grid">
-        <div>
+        <div class="form-group">
           <label for="sg-combobox" class="form-label">Combobox</label>
           <Combobox
             id="sg-combobox"
@@ -375,7 +377,7 @@
           <p class="subtle">Selected: {comboboxValue || "none"}</p>
         </div>
 
-        <div>
+        <div class="form-group">
           <label for="sg-date" class="form-label">Date Picker</label>
           <DatePicker
             id="sg-date"
@@ -386,7 +388,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="form-group">
         <label for="sg-multi" class="form-label">Multi-Select Combobox</label>
         <MultiSelectCombobox
           id="sg-multi"
