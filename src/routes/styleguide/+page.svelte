@@ -112,6 +112,8 @@
         root.
       </p>
       <p class="subtle">This is subtle text, used for secondary info.</p>
+      <hr class="separator" />
+      <p class="text-body">This text is separated with horizontal rule</p>
     </div>
   </section>
 
@@ -344,15 +346,6 @@
       <div class="spinner"></div>
       <span class="subtle">Loading...</span>
     </div>
-  </section>
-
-  <section id="separator">
-    <h2 class="text-heading-2">
-      <a class="link" href="#separator">#</a> Separator
-    </h2>
-    <p>Content above</p>
-    <hr class="separator" />
-    <p>Content below</p>
   </section>
 
   <section id="pickers">
