@@ -67,7 +67,7 @@
 
 <div popover id="login-dialog" class="popover login-popover">
   <div class="margin-trim-block">
-    <h2 class="body">
+    <h2 class="text-body">
       Sign in to <strong>weareonhire.com</strong> with
       <strong><a class="link" href="/about#atmosphere">Atmosphere</a></strong>
     </h2>

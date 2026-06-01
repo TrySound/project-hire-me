@@ -8,7 +8,9 @@
           <use href="#icon-github" />
         </svg>
       </p>
-      <h3 class="heading-2">Contribute</h3>
+      <div class="margin-trim-block">
+        <h3 class="text-heading-5">Contribute</h3>
+      </div>
       <p class="subtle">Help us build weareonhire!</p>
       <p>View on GitHub</p>
     </div>
@@ -20,7 +22,9 @@
           <use href="#icon-discord" />
         </svg>
       </p>
-      <h3 class="heading-2">Join the Community</h3>
+      <div class="margin-trim-block">
+        <h3 class="text-heading-5">Join the Community</h3>
+      </div>
       <p class="subtle">Chat, ask questions, and share ideas.</p>
       <p>Join Discord</p>
     </div>
@@ -32,7 +36,9 @@
           <use href="#icon-bluesky" />
         </svg>
       </p>
-      <h3 class="heading-2">Stay Updated</h3>
+      <div class="margin-trim-block">
+        <h3 class="text-heading-5">Stay Updated</h3>
+      </div>
       <p class="subtle">Get the latest updates and announcements.</p>
       <p>Follow on Bluesky</p>
     </div>

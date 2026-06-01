@@ -77,7 +77,7 @@
               <use href="#icon-upload" />
             </svg>
           {/if}
-          <h3 class="heading-2">Upload Resume</h3>
+          <h3 class="text-heading-2">Upload Resume</h3>
           <p class="subtle">
             Upload your resume to automatically fill your profile
           </p>
@@ -109,7 +109,7 @@
               <use href="#icon-heart" />
             </svg>
           {/if}
-          <h3 class="heading-2">Give Recommendation Back</h3>
+          <h3 class="text-heading-2">Give Recommendation Back</h3>
           <p class="subtle">
             {#if data.inviter}
               Write a recommendation back to {data.inviter.name ||
@@ -146,7 +146,7 @@
               <use href="#icon-users" />
             </svg>
           {/if}
-          <h3 class="heading-2">Invite Your Peers</h3>
+          <h3 class="text-heading-2">Invite Your Peers</h3>
           <p class="subtle">
             Invite colleagues and friends you trust to join the community
           </p>
@@ -178,7 +178,9 @@
   closedby="any"
 >
   <header class="dialog-header">
-    <h2 class="dialog-title">Recommendation</h2>
+    <div class="margin-trim-block">
+      <h2 class="text-heading-5">Recommendation</h2>
+    </div>
     <button
       class="icon-button"
       aria-label="Close"
@@ -296,7 +298,7 @@
     float: right;
     font-weight: normal;
     color: var(--color-text-tertiary);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-size--1);
   }
 
   @media (max-width: 768px) {

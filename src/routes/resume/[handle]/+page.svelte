@@ -286,11 +286,7 @@
   <!-- Contacts and Summary Section -->
 
   <!-- Editor -->
-  <section
-    class="cv-section"
-    aria-label="Edit contacts and summary"
-    hidden={!isEditingBasics}
-  >
+  <section aria-label="Edit contacts and summary" hidden={!isEditingBasics}>
     <div class="row">
       <div><!-- skip column --></div>
       <form
@@ -462,18 +458,16 @@
 
   <!-- Preview -->
 
-  <section
-    class="cv-section"
-    aria-label="Contacts and summary"
-    hidden={isEditingBasics}
-  >
+  <section aria-label="Contacts and summary" hidden={isEditingBasics}>
     <div class="row name-row">
       <div><!-- skip column --></div>
-      <div class="margin-trim-block">
+      <div>
         <div class="space-between">
-          <h2 class="heading-1">
-            {basicProfile.name || data.profile.handle}
-          </h2>
+          <div class="margin-trim-block">
+            <h1 class="text-heading-1">
+              {basicProfile.name || data.profile.handle}
+            </h1>
+          </div>
           <div class="actions">
             {#if isProfileOwner}
               <button
@@ -483,7 +477,7 @@
                 commandfor="upload-resume-dialog"
                 command="show-modal"
               >
-                <svg width="16" height="16">
+                <svg width="20" height="20">
                   <use href="#icon-upload" />
                 </svg>
               </button>
@@ -494,7 +488,7 @@
               aria-label="Print resume"
               onclick={() => window.print()}
             >
-              <svg width="16" height="16">
+              <svg width="20" height="20">
                 <use href="#icon-print" />
               </svg>
             </button>
@@ -504,39 +498,41 @@
                 aria-label="Edit contacts and summary"
                 onclick={startEditingBasics}
               >
-                <svg width="16" height="16">
+                <svg width="20" height="20">
                   <use href="#icon-pencil" />
                 </svg>
               </button>
             {/if}
           </div>
         </div>
-        {#if basicProfile.title}
-          <p class="subtle">{basicProfile.title}</p>
-        {/if}
-        <p class="subtle chip-group">
-          <span class="chip">
-            {#if basicProfile.countryCode}
-              {countries.getName(basicProfile.countryCode, "en", {
-                select: "alias",
-              })}
-            {:else}
-              Worldwide
-            {/if}
-            <svg width="14" height="14"><use href="#icon-location" /></svg>
-          </span>
-          {#each basicProfile.preferredWorkplaces as workplace}
+        <div class="margin-trim-block">
+          {#if basicProfile.title}
+            <p>{basicProfile.title}</p>
+          {/if}
+          <p class="subtle chip-group">
             <span class="chip">
-              {workplaceOptions.find((option) => option.value === workplace)
-                ?.label}
+              {#if basicProfile.countryCode}
+                {countries.getName(basicProfile.countryCode, "en", {
+                  select: "alias",
+                })}
+              {:else}
+                Worldwide
+              {/if}
+              <svg width="14" height="14"><use href="#icon-location" /></svg>
             </span>
-          {/each}
-          {#each basicProfile.languages as language}
-            <span class="chip">
-              {language.name}
-            </span>
-          {/each}
-        </p>
+            {#each basicProfile.preferredWorkplaces as workplace}
+              <span class="chip">
+                {workplaceOptions.find((option) => option.value === workplace)
+                  ?.label}
+              </span>
+            {/each}
+            {#each basicProfile.languages as language}
+              <span class="chip">
+                {language.name}
+              </span>
+            {/each}
+          </p>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -575,11 +571,7 @@
     </div>
   </section>
 
-  <section
-    class="cv-section"
-    aria-label="Edit skills"
-    hidden={!isEditingSkills}
-  >
+  <section aria-label="Edit skills" hidden={!isEditingSkills}>
     <div class="row">
       <div><!-- skip column --></div>
       <form
@@ -634,7 +626,7 @@
   </section>
 
   <section
-    class="cv-section section-skills margin-trim-block"
+    class="section-skills margin-trim-block"
     aria-label="Skills"
     hidden={isEditingSkills ||
       isProfileLoading ||
@@ -644,14 +636,14 @@
     <div class="row" hidden={isEditingSkills}>
       <div><!-- skip column --></div>
       <div class="space-between">
-        <h2 class="heading-2 uppercase subtle">Technical Skills</h2>
+        <h2 class="text-heading-2 subtle">Technical Skills</h2>
         {#if isProfileOwner}
           <button
             class="icon-button"
             aria-label="Edit skills"
             onclick={startEditingSkills}
           >
-            <svg width="16" height="16">
+            <svg width="20" height="20">
               <use href="#icon-pencil" />
             </svg>
           </button>
@@ -673,42 +665,37 @@
     {/each}
   </section>
 
-  <div class="editor-container">
-    {#if profile.current}
-      <Editor
-        resume={profile.current}
-        onSave={handleSave}
-        readonly={!isProfileOwner}
-      />
-    {/if}
-    {#if isProfileLoading}
-      <div class="spinner-container">
-        <div class="spinner"></div>
-        <span class="subtle">Loading profile...</span>
-      </div>
-    {/if}
-  </div>
+  {#if profile.current}
+    <Editor
+      resume={profile.current}
+      onSave={handleSave}
+      readonly={!isProfileOwner}
+    />
+  {/if}
+  {#if isProfileLoading}
+    <div class="spinner-container">
+      <div class="spinner"></div>
+      <span class="subtle">Loading profile...</span>
+    </div>
+  {/if}
 
   <!-- Recommendations Section -->
-  <section
-    class="recommendations-section"
-    aria-label="Recommendations from other members"
-  >
+  <section aria-label="Recommendations from other members">
     <div class="row">
       <div><!-- skip column --></div>
-      <h2 class="heading-2 subtle">Recommendations</h2>
+      <h2 class="text-heading-2 subtle">Recommendations</h2>
     </div>
 
-    <div>
+    <div class="list">
       {#each recommendations.current?.recommendations as item}
-        <article id="recommendation-{item.id}" class="row recommendation">
+        <article class="row">
           <div>
             <time class="subtle" datetime={item.createdAt}>
               {formatDate(item.createdAt)}
             </time>
           </div>
           <div class="margin-trim-block">
-            <p>
+            <p class="subtle">
               <a href="/profile/{item.authorHandle}" class="link">
                 {item.authorName || item.authorHandle}
               </a>
@@ -747,27 +734,15 @@
     margin-bottom: var(--space-4);
   }
 
-  .cv-section {
-    margin-bottom: var(--space-12);
-  }
-
   :where(.section-skills .row) {
     @media (max-width: 640px) {
       margin-bottom: var(--space-4);
     }
   }
 
-  .editor-container {
-    margin-bottom: var(--space-8);
-  }
-
-  .recommendations-section {
+  .list {
     display: grid;
     gap: var(--space-8);
-  }
-
-  .recommendation {
-    padding: var(--space-6) 0;
   }
 
   .contact-item {
