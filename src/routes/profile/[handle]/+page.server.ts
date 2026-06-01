@@ -12,8 +12,10 @@ export const load = async ({ params, locals, url }) => {
 
   return {
     handle: locals.handle,
+    did: locals.did,
     profile: {
       handle: resolved.handle,
+      did: resolved.did,
     },
   };
 };

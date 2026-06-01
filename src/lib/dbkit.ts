@@ -14,7 +14,7 @@ export async function getDB(): Promise<Kysely<DatabaseSchema>> {
     } else {
       const pool = await getPgpoolDb(env);
       db = new Kysely<DatabaseSchema>({
-        dialect: new PostgresDialect({ pool }),
+        dialect: new PostgresDialect({ pool: pool as never }),
       });
     }
   }

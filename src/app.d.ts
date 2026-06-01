@@ -9,7 +9,6 @@ declare global {
     interface Locals {
       did?: string;
       handle?: string;
-      role?: "member" | "visitor";
       session?: OAuthSession;
     }
     // interface PageData {}

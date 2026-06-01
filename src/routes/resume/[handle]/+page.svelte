@@ -32,8 +32,11 @@
 
   let { data } = $props();
 
-  const basicProfile = $derived(
-    await getResumeBasics({ handle: data.profile.handle }),
+  const [basicProfile, contacts] = $derived(
+    await Promise.all([
+      getResumeBasics({ did: data.profile.did }),
+      getProfileContacts({ did: data.profile.did }),
+    ]),
   );
 
   // SEO metadata
@@ -59,20 +62,12 @@
 
   const isProfileOwner = $derived(data.handle === data.profile.handle);
 
-  // Load resume via remote query
-  const profile = $derived(getMemberProfile({ handle: data.profile.handle }));
+  const profile = $derived(getMemberProfile({ did: data.profile.did }));
 
-  // Load contacts via remote query
-  const contacts = $derived(
-    await getProfileContacts({ handle: data.profile.handle }),
-  );
+  const skills = $derived(getResumeSkills({ did: data.profile.did }));
 
-  // Load skills via remote query
-  const skills = $derived(getResumeSkills({ handle: data.profile.handle }));
-
-  // Load recommendations via remote query
   const recommendations = $derived(
-    getProfileRecommendations({ handle: data.profile.handle }),
+    getProfileRecommendations({ did: data.profile.did }),
   );
 
   const isProfileLoading = $derived(profile.loading || skills.loading);

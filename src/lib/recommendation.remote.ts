@@ -1,33 +1,24 @@
 import * as v from "valibot";
 import { error } from "@sveltejs/kit";
-import { Client } from "@atproto/lex";
+import { Client, type DidString } from "@atproto/lex";
 import { Agent } from "@atproto/api";
 import { query, form, getRequestEvent } from "$app/server";
 import * as weareonhire from "$lib/lexicons/com/weareonhire/recommendation";
 import { getDB } from "./dbkit";
 import { getOAuthClient } from "./auth";
-import { getNow, resolveIdentifier } from "./atproto";
+import { getNow } from "./atproto";
 import { getContrail } from "./contrail";
 import { formatDate } from "./date";
 
 export const getProfileRecommendations = query(
-  v.object({ handle: v.string() }),
-  async ({ handle }) => {
+  v.object({ did: v.string() }),
+  async ({ did }) => {
     const event = getRequestEvent();
     const db = await getDB();
 
-    const resolved = await resolveIdentifier(handle);
-    if (!resolved) {
-      error(404, `Cannot resolve ${handle}`);
-    }
-
     const recommendations = await db
       .selectFrom("records_recommendation as rec")
-      .where(
-        (query) => query.ref("rec.record", "->>").key("subject"),
-        "=",
-        resolved.did,
-      )
+      .where((query) => query.ref("rec.record", "->>").key("subject"), "=", did)
       .leftJoin("records_profile as author", "author.did", "rec.did")
       .leftJoin("identities as author_id", "author_id.did", "rec.did")
       .orderBy(
@@ -64,24 +55,19 @@ export const getProfileRecommendations = query(
 
 export const createRecommendation = form(
   v.object({
-    handle: v.pipe(v.string(), v.nonEmpty()),
+    did: v.pipe(v.string(), v.nonEmpty()),
     reason: v.pipe(
       v.string(),
       v.minLength(200, "Recommendation should be at least 200 characters long"),
     ),
   }),
-  async ({ handle, reason }) => {
+  async ({ did, reason }) => {
     const event = getRequestEvent();
     if (!event.locals.did) {
       error(401);
     }
 
-    const resolved = await resolveIdentifier(handle);
-    if (!resolved) {
-      error(404, `Cannot resolve ${handle}`);
-    }
-
-    if (event.locals.did === resolved.did) {
+    if (event.locals.did === did) {
       error(400, "Cannot recommend yourself");
     }
 
@@ -90,11 +76,7 @@ export const createRecommendation = form(
       .selectFrom("records_recommendation")
       .select("uri")
       .where("did", "=", event.locals.did)
-      .where(
-        (query) => query.ref("record", "->>").key("subject"),
-        "=",
-        resolved.did,
-      )
+      .where((query) => query.ref("record", "->>").key("subject"), "=", did)
       .executeTakeFirst();
     if (existingRecommendation) {
       error(400, "Already recommended this person");
@@ -106,13 +88,13 @@ export const createRecommendation = form(
     const session = await oauthClient.restore(event.locals.did);
     const client = new Client(new Agent(session));
     const createdRecommendation = await client.create(weareonhire, {
-      subject: resolved.did,
+      subject: did as DidString,
       reason,
       createdAt,
     });
     const contrail = await getContrail();
     contrail.notify(createdRecommendation.uri);
 
-    getProfileRecommendations({ handle }).refresh();
+    getProfileRecommendations({ did }).refresh();
   },
 );

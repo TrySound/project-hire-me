@@ -6,11 +6,6 @@ export const load = async ({ locals, url }) => {
     redirect(302, `/?redirect=${encodeURIComponent(url.pathname)}`);
   }
 
-  // Only members can access getting started
-  if (locals.role !== "member") {
-    redirect(302, "/unauthorized");
-  }
-
   const db = await getDB();
 
   // Get member info for inviter details
@@ -25,7 +20,7 @@ export const load = async ({ locals, url }) => {
   if (member?.invited_by) {
     const inviterData = await db
       .selectFrom("members")
-      .select(["name", "handle"])
+      .select(["name", "handle", "did"])
       .where("did", "=", member.invited_by)
       .executeTakeFirst();
 
@@ -33,13 +28,13 @@ export const load = async ({ locals, url }) => {
       inviter = {
         name: inviterData.name,
         handle: inviterData.handle,
+        did: inviterData.did,
       };
     }
   }
 
   return {
     handle: locals.handle,
-    role: locals.role,
     inviter,
   };
 };

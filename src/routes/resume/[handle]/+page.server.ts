@@ -8,8 +8,10 @@ export const load = async ({ params, locals }) => {
   }
 
   return {
+    did: locals.did,
     handle: locals.handle,
     profile: {
+      did: resolved.did,
       handle: resolved.handle,
     },
   };

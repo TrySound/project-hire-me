@@ -20,8 +20,19 @@
 
   let { data } = $props();
 
-  // await triggers reactivity loss warning but does not blink on the page
-  const profile = $derived(await getProfile({ handle: data.profile.handle }));
+  const publicationsLimit = 4;
+
+  const [profile, contacts, recommendations, publications] = $derived(
+    await Promise.all([
+      getProfile({ did: data.profile.did }),
+      getProfileContacts({ did: data.profile.did }),
+      getProfileRecommendations({ did: data.profile.did }),
+      getPublications({
+        authorDid: data.profile.did,
+        limit: publicationsLimit,
+      }),
+    ]),
+  );
 
   // SEO metadata
   const profileName = $derived(profile.name ?? data.profile.handle);
@@ -57,24 +68,6 @@
   // reset the form instantly hidden after submission
   const createRecommendation = $derived(
     createRecommendationRaw.for(data.profile.handle),
-  );
-
-  const recommendations = $derived(
-    // await triggers reactivity loss warning but does not blink on the page
-    await getProfileRecommendations({ handle: data.profile.handle }),
-  );
-
-  const contacts = $derived(
-    await getProfileContacts({ handle: data.profile.handle }),
-  );
-
-  const publicationsLimit = 4;
-
-  const publications = $derived(
-    await getPublications({
-      author: data.profile.handle,
-      limit: publicationsLimit,
-    }),
   );
 
   // Track which recommendation is currently targeted via URL hash
@@ -479,10 +472,7 @@
         <div><!-- skip column --></div>
         <form {...createRecommendation} class="form-stack">
           <input
-            {...createRecommendation.fields.handle.as(
-              "hidden",
-              data.profile.handle,
-            )}
+            {...createRecommendation.fields.did.as("hidden", data.profile.did)}
           />
           <div class="form-group">
             <label for="recommendation-input" class="form-label">

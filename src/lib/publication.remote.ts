@@ -1,30 +1,19 @@
 import * as v from "valibot";
-import { sql } from "kysely";
-import { error } from "@sveltejs/kit";
 import { query } from "$app/server";
-import { resolveIdentifier } from "./atproto";
 import { getDB } from "./dbkit";
 
 export const getPublications = query(
   v.object({
-    author: v.string(),
+    authorDid: v.string(),
     limit: v.optional(v.number()),
   }),
-  async ({ author, limit }) => {
-    const resolved = await resolveIdentifier(author);
-    if (!resolved) {
-      error(404, `Cannot resolve ${author}`);
-    }
+  async ({ authorDid, limit }) => {
     const db = await getDB();
 
     let queryBuilder = db
       .selectFrom("records_document as doc")
       .innerJoin("records_publication as pub", (join) =>
-        join.on(
-          sql`concat('at://', pub.did, '/site.standard.publication/', pub.rkey)`,
-          "=",
-          (q) => q.ref("doc.record", "->>").key("site"),
-        ),
+        join.on("pub.uri", "=", (q) => q.ref("doc.record", "->>").key("site")),
       )
       .select((q) => [
         q.ref("doc.record", "->").key("title").as("title"),
@@ -34,7 +23,7 @@ export const getPublications = query(
         q.ref("pub.record", "->").key("name").as("name"),
         q.ref("doc.record", "->").key("publishedAt").as("publishedAt"),
       ])
-      .where("doc.did", "=", resolved.did)
+      .where("doc.did", "=", authorDid)
       .orderBy((q) => q.ref("doc.record", "->>").key("publishedAt"), "desc");
 
     if (limit !== undefined) {
