@@ -42,7 +42,7 @@ html[data-theme="dark"] {
   --font-weight-bold: 700;
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
-  --line-height-relaxed: 1.6;
+  --line-height-relaxed: 1.7;
 
   /* Spacing - Compact Scale */
   --space-1: 0.25rem;
@@ -110,8 +110,7 @@ body {
 .text-body,
 :root {
   font-size: var(--text-size-0);
-  --lh-calculated: calc(var(--lh-body) - 1em * var(--lh-decay));
-  line-height: clamp(var(--lh-min), var(--lh-calculated), var(--lh-body));
+  line-height: var(--line-height-relaxed);
   font-weight: normal;
   font-family: var(--font-family);
 }
@@ -130,8 +129,6 @@ body {
 .text-heading-6,
 .prose h6 {
   font-size: var(--text-size-0);
-  --lh-calculated: calc(var(--lh-body) - 1em * var(--lh-decay));
-  line-height: clamp(var(--lh-min), var(--lh-calculated), var(--lh-body));
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--color-text);
@@ -142,8 +139,6 @@ body {
 .text-heading-5,
 .prose h5 {
   font-size: var(--text-size-1);
-  --lh-calculated: calc(var(--lh-body) - 1em * var(--lh-decay));
-  line-height: clamp(var(--lh-min), var(--lh-calculated), var(--lh-body));
   font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--color-text);
@@ -154,8 +149,6 @@ body {
 .text-heading-4,
 .prose h4 {
   font-size: var(--text-size-2);
-  --lh-calculated: calc(var(--lh-body) - 1em * var(--lh-decay));
-  line-height: clamp(var(--lh-min), var(--lh-calculated), var(--lh-body));
   font-weight: 500;
   letter-spacing: 0.03em;
   color: var(--color-text);
@@ -166,8 +159,6 @@ body {
 .text-heading-3,
 .prose h3 {
   font-size: var(--text-size-3);
-  --lh-calculated: calc(var(--lh-body) - 1em * var(--lh-decay));
-  line-height: clamp(var(--lh-min), var(--lh-calculated), var(--lh-body));
   font-weight: 400;
   letter-spacing: -0.01em;
   color: var(--color-text);
@@ -178,8 +169,6 @@ body {
 .text-heading-2,
 .prose h2 {
   font-size: var(--text-size-4);
-  --lh-calculated: calc(var(--lh-body) - 1em * var(--lh-decay));
-  line-height: clamp(var(--lh-min), var(--lh-calculated), var(--lh-body));
   font-weight: 300;
   letter-spacing: -0.02em;
   color: var(--color-text);
@@ -190,8 +179,6 @@ body {
 .text-heading-1,
 .prose h1 {
   font-size: var(--text-size-5);
-  --lh-calculated: calc(var(--lh-body) - 1em * var(--lh-decay));
-  line-height: clamp(var(--lh-min), var(--lh-calculated), var(--lh-body));
   font-weight: 200;
   letter-spacing: -0.03em;
   color: var(--color-text);
