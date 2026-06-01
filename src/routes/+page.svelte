@@ -45,7 +45,9 @@
 
   <section class="hero">
     <h1 class="text-heading-1 hero-title">weareonhire!</h1>
-    <p class="text-heading-6 hero-tagline">Your professional story, backed by your peers</p>
+    <p class="text-heading-6 hero-tagline">
+      Your professional story, backed by your peers
+    </p>
     <div class="hero-actions">
       {#if data.handle}
         <a
@@ -75,7 +77,9 @@
             <use href="#icon-users" />
           </svg>
         </p>
-        <h3 class="heading-2">Algorithms Don't Know You</h3>
+        <div class="margin-trim-block">
+          <h3 class="text-heading-5">Algorithms Don't Know You</h3>
+        </div>
         <p class="text-wrap-balance">
           ATS filters throw away great candidates over missing keywords. Your
           real skills get buried under buzzword games.
@@ -87,7 +91,9 @@
             <use href="#icon-print" />
           </svg>
         </p>
-        <h3 class="heading-2">Resumes Are Broken</h3>
+        <div class="margin-trim-block">
+          <h3 class="text-heading-5">Resumes Are Broken</h3>
+        </div>
         <p class="text-wrap-balance">
           Everyone exaggerates to beat the system. Nobody trusts what they read
           anymore.
@@ -99,7 +105,9 @@
             <use href="#icon-clock" />
           </svg>
         </p>
-        <h3 class="heading-2">Months Wasted</h3>
+        <div class="margin-trim-block">
+          <h3 class="text-heading-5">Months Wasted</h3>
+        </div>
         <p class="text-wrap-balance">
           You apply to hundreds of roles. Ghosted. Companies interview dozens of
           poor fits. <strong>We need human connection back.</strong>
@@ -112,7 +120,9 @@
     <h2 class="text-heading-2 section-title">How It Works</h2>
     <div class="works-list">
       <article class="margin-trim-block">
-        <h3 class="heading-2">Tell Your Story</h3>
+        <div class="margin-trim-block">
+          <h3 class="text-heading-5">Tell Your Story</h3>
+        </div>
         <p class="text-wrap-pretty">
           Skip the keyword games. Just write about what you've actually built,
           what you learned, and what you're proud of. Your profile becomes a
@@ -120,7 +130,9 @@
         </p>
       </article>
       <article class="margin-trim-block">
-        <h3 class="heading-2">Get Endorsed</h3>
+        <div class="margin-trim-block">
+          <h3 class="text-heading-5">Get Endorsed</h3>
+        </div>
         <p class="text-wrap-pretty">
           Ask colleagues or open source collaborators who know your work to
           write a few sentences about what it's like working with you. Real
@@ -128,14 +140,18 @@
         </p>
       </article>
       <article class="margin-trim-block">
-        <h3 class="heading-2">Pay It Forward</h3>
+        <div class="margin-trim-block">
+          <h3 class="text-heading-5">Pay It Forward</h3>
+        </div>
         <p class="text-wrap-pretty">
           Vouch for people you'd happily work with again. It's how good people
           help each other find the right opportunities.
         </p>
       </article>
       <article class="margin-trim-block">
-        <h3 class="heading-2">Built on AT Protocol</h3>
+        <div class="margin-trim-block">
+          <h3 class="text-heading-5">Built on AT Protocol</h3>
+        </div>
         <p class="text-wrap-pretty">
           Your professional profile lives on the Atmosphere, the open network
           behind Bluesky. Leave weareonhire! and all recommendations stays with

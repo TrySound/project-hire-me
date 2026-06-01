@@ -163,11 +163,7 @@
   <Topbar handle={data.handle} />
 
   <!-- editor -->
-  <section
-    class="profile-container"
-    aria-label="Edit profile"
-    hidden={!isEditing}
-  >
+  <section aria-label="Edit profile" hidden={!isEditing}>
     <div class="row">
       <div><!-- skip column --></div>
 
@@ -312,12 +308,16 @@
   </section>
 
   <!-- preview -->
-  <section class="profile-container" aria-label="Profile" hidden={isEditing}>
+  <section aria-label="Profile" hidden={isEditing}>
     <div class="row profile-name-row">
       <div><!-- skip column --></div>
-      <div class="margin-trim-block">
+      <div>
         <div class="space-between">
-          <h2 class="heading-1">{profile.name ?? data.profile.handle}</h2>
+          <div class="margin-trim-block">
+            <h2 class="text-heading-1">
+              {profile.name ?? data.profile.handle}
+            </h2>
+          </div>
           {#if isProfileOwner}
             <button
               class="icon-button"
@@ -330,25 +330,27 @@
             </button>
           {/if}
         </div>
-        <p class="subtle">{profile.title}</p>
-        <p class="subtle">
-          {#if profile.status}
-            <span class="chip">
-              {getStatusLabel(profile.status)}
-              <svg width="14" height="14"><use href="#icon-check" /></svg>
-            </span>
-          {/if}
-          <span class="chip">
-            {#if profile.countryCode}
-              {countries.getName(profile.countryCode, "en", {
-                select: "alias",
-              })}
-            {:else}
-              Worldwide
+        <div class="margin-trim-block">
+          <p>{profile.title}</p>
+          <p class="subtle">
+            {#if profile.status}
+              <span class="chip">
+                {getStatusLabel(profile.status)}
+                <svg width="14" height="14"><use href="#icon-check" /></svg>
+              </span>
             {/if}
-            <svg width="14" height="14"><use href="#icon-location" /></svg>
-          </span>
-        </p>
+            <span class="chip">
+              {#if profile.countryCode}
+                {countries.getName(profile.countryCode, "en", {
+                  select: "alias",
+                })}
+              {:else}
+                Worldwide
+              {/if}
+              <svg width="14" height="14"><use href="#icon-location" /></svg>
+            </span>
+          </p>
+        </div>
       </div>
     </div>
 
@@ -395,11 +397,11 @@
 
   <!-- Publications Section -->
   {#if publications.publications.length > 0 || isProfileOwner}
-    <section class="publications-section" aria-label="Recent articles">
+    <section aria-label="Recent articles">
       <div class="row">
         <div><!-- skip column --></div>
         <div class="space-between">
-          <h2 class="heading-2 subtle">Publications</h2>
+          <h2 class="text-heading-2 subtle">Recent articles</h2>
           {#if isProfileOwner}
             <a
               class="icon-button"
@@ -415,59 +417,60 @@
         </div>
       </div>
 
-      {#each publications.publications as publication}
-        <article class="row">
-          <div>
-            {#if publication.publishedAt}
-              <time class="subtle" datetime={publication.publishedAt}>
-                {formatDate(publication.publishedAt)}
-              </time>
-            {/if}
+      <div class="list">
+        {#each publications.publications as publication}
+          <article class="row">
+            <div>
+              {#if publication.publishedAt}
+                <time class="subtle" datetime={publication.publishedAt}>
+                  {formatDate(publication.publishedAt)}
+                </time>
+              {/if}
+            </div>
+            <div class="margin-trim-block">
+              <div class="margin-trim-block">
+                <h3 class="text-heading-6">
+                  <a href={publication.url} target="_blank" class="link">
+                    {publication.title}
+                  </a>
+                </h3>
+              </div>
+              {#if publication.description}
+                <p class="subtle">{publication.description}</p>
+              {/if}
+            </div>
+          </article>
+        {/each}
+        {#if publications.publications.length === 0}
+          <div class="row">
+            <div><!-- skip column --></div>
+            <div>
+              <div class="subtle">You have not published anything yet</div>
+            </div>
           </div>
-          <div class="margin-trim-block">
-            <h3 class="body">
-              <a href={publication.url} target="_blank" class="link">
-                {publication.title}
+        {/if}
+        {#if publications.publications.length >= publicationsLimit}
+          <div class="row">
+            <div><!-- skip column --></div>
+            <div>
+              <a
+                href="/publications?author={data.profile.handle}"
+                class="link subtle"
+              >
+                Read all
               </a>
-            </h3>
-            {#if publication.description}
-              <p class="subtle">{publication.description}</p>
-            {/if}
+            </div>
           </div>
-        </article>
-      {/each}
-      {#if publications.publications.length === 0}
-        <div class="row">
-          <div><!-- skip column --></div>
-          <div>
-            <div class="subtle">You have not published anything yet</div>
-          </div>
-        </div>
-      {/if}
-      {#if publications.publications.length >= publicationsLimit}
-        <div class="row">
-          <div><!-- skip column --></div>
-          <div>
-            <a
-              href="/publications?author={data.profile.handle}"
-              class="link subtle"
-            >
-              Read all
-            </a>
-          </div>
-        </div>
-      {/if}
+        {/if}
+      </div>
     </section>
   {/if}
 
   <!-- Recommendations Section -->
-  <section
-    class="recommendations-section"
-    aria-label="Recommendations from other members"
-  >
+  <section aria-label="Recommendations from other members">
     <div class="row">
       <div><!-- skip column --></div>
-      <h2 class="heading-2 subtle">Recommendations</h2>
+      <h2 class="text-heading-2 subtle">Recommendations</h2>
     </div>
 
     <!-- Write Recommendation Form -->
@@ -509,7 +512,7 @@
       </div>
     {/if}
 
-    <div>
+    <div class="list">
       {#each recommendations.recommendations as item}
         <article
           id="recommendation-{item.id}"
@@ -551,12 +554,13 @@
     }
   }
 
-  .profile-container {
-    margin-bottom: var(--space-12);
-  }
-
   .profile-name-row {
     margin-bottom: var(--space-4);
+  }
+
+  .list {
+    display: grid;
+    gap: var(--space-8);
   }
 
   .contact-item {
@@ -570,26 +574,15 @@
     }
   }
 
-  .recommendations-section {
-    display: grid;
-    gap: var(--space-3);
-  }
-
   .character-count {
     float: right;
   }
 
   .recommendation {
-    padding: var(--space-4) var(--space-4);
-    margin: 0 calc(var(--space-4) * -1);
+    padding: var(--space-4);
+    margin: calc(var(--space-4) * -1);
     &.active {
       background-color: var(--color-bg-hover);
     }
-  }
-
-  .publications-section {
-    display: grid;
-    gap: var(--space-8);
-    margin-bottom: var(--space-12);
   }
 </style>

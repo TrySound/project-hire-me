@@ -71,7 +71,9 @@
 <header class="topbar">
   <div class="logo-and-search">
     {#if !hideLogo}
-      <a class="heading-1 topbar-logo" href="/">WAOH!</a>
+      <div class="margin-trim-block">
+        <a class="text-heading-4 topbar-logo" href="/">WAOH!</a>
+      </div>
     {:else}
       <span></span>
     {/if}

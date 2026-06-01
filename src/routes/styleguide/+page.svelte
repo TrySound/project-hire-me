@@ -285,7 +285,9 @@
     </button>
     <dialog id="styleguide-dialog" class="dialog" closedby="any">
       <header class="dialog-header">
-        <h2 class="dialog-title">Dialog Title</h2>
+        <div class="margin-trim-block">
+          <h2 class="text-heading-5">Dialog Title</h2>
+        </div>
         <button
           class="icon-button"
           aria-label="Close"
@@ -299,8 +301,8 @@
       </header>
       <div class="dialog-content">
         <p class="dialog-description">
-          This is a dialog using the .dialog, .dialog-header, .dialog-content,
-          and .dialog-title classes.
+          This is a dialog using the .dialog, .dialog-header and .dialog-content
+          classes.
         </p>
         <div class="form-actions">
           <button

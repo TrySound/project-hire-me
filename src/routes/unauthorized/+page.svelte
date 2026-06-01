@@ -27,9 +27,11 @@
 
 <div class="outer">
   <div class="container">
-    <h1 class="heading-1">Access Denied</h1>
-    <p>You are not authorized to access this closed community.</p>
-    <p>Only approved members can view and edit profiles.</p>
+    <h1 class="text-heading-2">Access Denied</h1>
+    <p>
+      You are not authorized to access this closed community. Only approved
+      members can view and edit profiles.
+    </p>
     <a href="/" class="link">Back to Home</a>
   </div>
 </div>

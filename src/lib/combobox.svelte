@@ -280,7 +280,7 @@
     padding: var(--space-3);
     text-align: center;
     color: var(--color-text-placeholder);
-    font-size: var(--font-size-sm);
+    font-size: var(--text-size--1);
   }
 
   .custom-option {

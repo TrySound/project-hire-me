@@ -200,7 +200,9 @@
   ontoggle={reset}
 >
   <header class="dialog-header">
-    <h2 class="dialog-title">Upload Resume</h2>
+    <div class="margin-trim-block">
+      <h2 class="text-heading-5">Upload Resume</h2>
+    </div>
     <button
       class="icon-button"
       aria-label="Close"

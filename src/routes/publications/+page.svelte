@@ -49,7 +49,9 @@
   <section class="publications-section" aria-label="Publications">
     <div class="row">
       <div><!-- skip column --></div>
-      <h2 class="heading-2 subtle">Publications by {authorName}</h2>
+      <div class="margin-trim-block">
+        <h2 class="text-heading-1 subtle">Publications by {authorName}</h2>
+      </div>
     </div>
 
     {#if publications.publications.length > 0}
@@ -63,11 +65,13 @@
             {/if}
           </div>
           <div class="margin-trim-block">
-            <h3 class="body">
-              <a href={publication.url} target="_blank" class="link">
-                {publication.title}
-              </a>
-            </h3>
+            <div class="margin-trim-block">
+              <h3 class="text-heading-6">
+                <a href={publication.url} target="_blank" class="link">
+                  {publication.title}
+                </a>
+              </h3>
+            </div>
             {#if publication.description}
               <p class="subtle">{publication.description}</p>
             {/if}
