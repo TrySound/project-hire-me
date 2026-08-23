@@ -1,5 +1,3 @@
-// ---- Unified taxonomy ----
-// In production, load this from EMSI/O*NET or a curated JSON file
 export const SKILLS_TAXONOMY: Record<string, string[]> = {
   languages: [
     "typescript",
@@ -8,8 +6,8 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "java",
     "c++",
     "c#",
-    "css",
     "html",
+    "css",
     "go",
     "rust",
     "ruby",
@@ -22,7 +20,7 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "haskell",
     "r",
   ],
-  frameworks: [
+  frontend: [
     "react",
     "next.js",
     "nextjs",
@@ -31,8 +29,11 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "angular",
     "svelte",
     "tailwind",
-    "webpack",
-    "vite",
+    "design systems",
+    "accessibility",
+    "web performance",
+  ],
+  "backend/data": [
     "node.js",
     "nodejs",
     "express",
@@ -45,8 +46,14 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "nestjs",
     "hono",
     "elysia",
-  ],
-  databases: [
+    "graphql",
+    "rest",
+    "trpc",
+    "grpc",
+    "websocket",
+    "prisma",
+    "drizzle",
+    "hasura",
     "postgresql",
     "mysql",
     "mongodb",
@@ -59,7 +66,12 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "planetscale",
     "turso",
   ],
-  cloud: [
+  other: [
+    "frontend architecture",
+    "developer tooling",
+    "build systems",
+    "webpack",
+    "vite",
     "aws",
     "azure",
     "gcp",
@@ -68,8 +80,6 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "vercel",
     "heroku",
     "digitalocean",
-  ],
-  devops: [
     "docker",
     "kubernetes",
     "terraform",
@@ -78,8 +88,6 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "github actions",
     "jenkins",
     "helm",
-  ],
-  ai_ml: [
     "openai",
     "langchain",
     "pytorch",
@@ -88,15 +96,6 @@ export const SKILLS_TAXONOMY: Record<string, string[]> = {
     "scikit-learn",
     "pandas",
     "numpy",
-  ],
-  tools: [
-    "graphql",
-    "rest",
-    "trpc",
-    "grpc",
-    "websocket",
-    "prisma",
-    "drizzle",
     "stripe",
     "twilio",
     "sendgrid",
