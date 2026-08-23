@@ -176,6 +176,7 @@ export const updateResumeBasics = form(
     // cannot use set because languages should be refreshed
     getResumeBasics({ did }).refresh();
     getProfileContacts({ did }).refresh();
+    getMemberProfile({ did }).refresh();
   },
 );
 
@@ -188,13 +189,14 @@ export const updateResumeSkills = form(
   async ({ skillOperations }) => {
     const event = getRequestEvent();
     const did = event.locals.did as DidString;
-    if (!did ) {
+    if (!did) {
       error(401, "Unauthorized");
     }
 
     await updateResumeSkillsData(did, skillOperations);
 
     getResumeSkills({ did }).refresh();
+    getMemberProfile({ did }).refresh();
   },
 );
 
