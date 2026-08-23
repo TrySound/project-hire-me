@@ -17,23 +17,33 @@
     [category: string]: Set<string>;
   } {
     const grouped: { [category: string]: Set<string> } = {};
+    const profileSkills = skills
+      .map((skill) => skill.name)
+      .filter((skill): skill is string => Boolean(skill));
+    const profileSkillNames = new Set(
+      profileSkills.map((skill) => skill.toLowerCase()),
+    );
+    const taxonomySkillNames = new Set(
+      Object.values(SKILLS_TAXONOMY)
+        .flat()
+        .map((skill) => skill.toLowerCase()),
+    );
 
-    // Create reverse lookup map: skill -> category
-    const skillToCategory: Record<string, string> = {};
+    // Iterating over the taxonomy keeps print categories and skills in UI order.
     for (const [category, categorySkills] of Object.entries(SKILLS_TAXONOMY)) {
-      for (const skill of categorySkills) {
-        skillToCategory[skill.toLowerCase()] = category;
+      const matched = categorySkills.filter((skill) =>
+        profileSkillNames.has(skill.toLowerCase()),
+      );
+      if (matched.length > 0) {
+        grouped[category] = new Set(matched);
       }
     }
 
-    for (const skill of skills) {
-      const skillName = skill.name ?? "";
-      if (!skillName) continue;
-      const category = skillToCategory[skillName.toLowerCase()] ?? "other";
-      if (!grouped[category]) {
-        grouped[category] = new Set();
-      }
-      grouped[category].add(skillName);
+    const customSkills = profileSkills.filter(
+      (skill) => !taxonomySkillNames.has(skill.toLowerCase()),
+    );
+    if (customSkills.length > 0) {
+      grouped.other = new Set([...(grouped.other ?? []), ...customSkills]);
     }
 
     return grouped;
