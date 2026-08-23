@@ -242,13 +242,17 @@
         grouped[category] = matched;
       }
     }
-    // Add "Other" category for custom skills not in taxonomy
-    const taxonomySkills = new Set(Object.values(SKILLS_TAXONOMY).flat());
+    // Add custom skills to the "other" category.
+    const taxonomySkills = new Set(
+      Object.values(SKILLS_TAXONOMY)
+        .flat()
+        .map((skill) => skill.toLowerCase()),
+    );
     const otherSkills = profileSkills.filter(
       (skill) => !taxonomySkills.has(skill.toLowerCase()),
     );
     if (otherSkills.length > 0) {
-      grouped["Other"] = otherSkills;
+      grouped["other"] = [...(grouped["other"] ?? []), ...otherSkills];
     }
     return grouped;
   }
